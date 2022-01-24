@@ -1,2 +1,2 @@
 # go_logger
-selfmade golang logger base on go/log
+self-made golang logger base on original Golang log pkg for reuse in project.
