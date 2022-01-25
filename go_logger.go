@@ -68,7 +68,7 @@ func (l *Logger) Critical(o interface{}) {
 
 func CreateLogger(f *os.File, level string) Logger {
 	writers := []io.Writer{f, os.Stdout}
-	logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
+	logger := log.New(io.MultiWriter(writers...), "", log.Lshortfile|log.Ldate|log.Ltime)
 	newLogger := Logger{logger: logger, level: level}
 
 	return newLogger
