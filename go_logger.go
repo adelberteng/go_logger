@@ -1,6 +1,7 @@
 package go_logger
 
 import (
+    "fmt"
     "os"
     "io"
     "log"
@@ -66,10 +67,13 @@ func (l *Logger) Critical(o interface{}) {
     }
 }
 
-func CreateLogger(f *os.File, level string) Logger {
-    writers := []io.Writer{f, os.Stdout}
-    logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
-    newLogger := Logger{logger: logger, level: level}
-
+var newLogger *Logger
+func CreateLogger(f *os.File, level string) *Logger {
+    // singleton 
+    if newLogger == nil {
+        writers := []io.Writer{f, os.Stdout}
+        logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
+        newLogger = &Logger{logger: logger, level: level}
+    }
     return newLogger
 }
