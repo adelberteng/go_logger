@@ -1,7 +1,6 @@
 package go_logger
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"os"
