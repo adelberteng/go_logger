@@ -1,4 +1,4 @@
-# go_logger [under developer]
+# go_logger [under development]
 Self-made Golang logger base on original Golang log pkg for reuse in projects.
 
 <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
