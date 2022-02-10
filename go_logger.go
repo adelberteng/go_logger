@@ -14,6 +14,19 @@ const (
 	LevelCritical
 )
 
+type Logger interface {
+	Debug(v interface{})
+	Info(v interface{})
+	Warning(v interface{})
+	Error(v interface{})
+	Critical(v interface{})
+}
+
+type GoLogger struct {
+	logger *log.Logger
+	level  string
+}
+
 func convertLevelToInt(s string) int {
 	levelMap := map[string]int{
 		"debug":    0,
@@ -26,51 +39,39 @@ func convertLevelToInt(s string) int {
 	return levelInt
 }
 
-type Logger interface {
-	Debug(o interface{})
-	Info(o interface{})
-	Warning(o interface{})
-	Error(o interface{})
-	Critical(o interface{})
-}
 
-type GoLogger struct {
-	logger *log.Logger
-	level  string
-}
-
-func (l *GoLogger) Debug(o interface{}) {
+func (l *GoLogger) Debug(v interface{}) {
 	levelInt := convertLevelToInt(l.level)
 	if levelInt <= LevelDebug {
-		l.logger.Println("[DEBUG] ", o)
+		l.logger.Println("[DEBUG] ", v)
 	}
 }
 
-func (l *GoLogger) Info(o interface{}) {
+func (l *GoLogger) Info(v interface{}) {
 	levelInt := convertLevelToInt(l.level)
 	if levelInt <= LevelInfo {
-		l.logger.Println("[INFO] ", o)
+		l.logger.Println("[INFO] ", v)
 	}
 }
 
-func (l *GoLogger) Warning(o interface{}) {
+func (l *GoLogger) Warning(v interface{}) {
 	levelInt := convertLevelToInt(l.level)
 	if levelInt <= LevelWarning {
-		l.logger.Println("[WARNING] ", o)
+		l.logger.Println("[WARNING] ", v)
 	}
 }
 
-func (l *GoLogger) Error(o interface{}) {
+func (l *GoLogger) Error(v interface{}) {
 	levelInt := convertLevelToInt(l.level)
 	if levelInt <= LevelError {
-		l.logger.Println("[ERROR] ", o)
+		l.logger.Println("[ERROR] ", v)
 	}
 }
 
-func (l *GoLogger) Critical(o interface{}) {
+func (l *GoLogger) Critical(v interface{}) {
 	levelInt := convertLevelToInt(l.level)
 	if levelInt <= LevelCritical {
-		l.logger.Println("[CRITICAL] ", o)
+		l.logger.Println("[CRITICAL] ", v)
 	}
 }
 
