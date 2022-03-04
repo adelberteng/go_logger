@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"sync"
 )
 
 const (
@@ -75,14 +76,22 @@ func (l *GoLogger) Critical(v interface{}) {
 	}
 }
 
-var newLogger *GoLogger
+var (
+	newLogger *GoLogger
+	once sync.Once
+)
 
 func CreateLogger(f *os.File, level string) *GoLogger {
-	// singleton
-	if newLogger == nil {
-		writers := []io.Writer{f, os.Stdout}
-		logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
-		newLogger = &GoLogger{logger: logger, level: level}
-	}
+	once.Do(
+		func() {
+			writers := []io.Writer{f, os.Stdout}
+			logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
+			newLogger = &GoLogger{
+				logger: logger,
+				level:  level,
+			}
+		},
+	)
+
 	return newLogger
 }

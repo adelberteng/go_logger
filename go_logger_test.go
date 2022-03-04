@@ -1,9 +1,9 @@
 package go_logger
 
 import (
-	"log"
-	"os"
-	"reflect"
+	// "log"
+	// "os"
+	// "reflect"
 	"testing"
 )
 
@@ -16,7 +16,11 @@ func Test_convertLevelToInt(t *testing.T) {
 		args args
 		want int
 	}{
-		// TODO: Add test cases.
+		{"debug", args{"debug"}, 0},
+		{"info", args{"info"}, 1},
+		{"warning", args{"warning"}, 2},
+		{"error", args{"error"}, 3},
+		{"critical", args{"critical"}, 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -27,153 +31,133 @@ func Test_convertLevelToInt(t *testing.T) {
 	}
 }
 
-func TestLogger_Debug(t *testing.T) {
-	type fields struct {
-		logger *log.Logger
-		level  string
-	}
-	type args struct {
-		o interface{}
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Logger{
-				logger: tt.fields.logger,
-				level:  tt.fields.level,
-			}
-			l.Debug(tt.args.o)
-		})
-	}
-}
+// func TestGoLogger_Debug(t *testing.T) {
+// 	type fields struct {
+// 		logger *log.Logger
+// 		level  string
+// 	}
+// 	type args struct {
+// 		v interface{}
+// 	}
+// 	tests := []struct {
+// 		name   string
+// 		fields fields
+// 		args   args
+// 	}{
+// 		{},
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			l := &GoLogger{
+// 				logger: tt.fields.logger,
+// 				level:  tt.fields.level,
+// 			}
+// 			l.Debug(tt.args.v)
+// 		})
+// 	}
+// }
 
-func TestLogger_Info(t *testing.T) {
-	type fields struct {
-		logger *log.Logger
-		level  string
-	}
-	type args struct {
-		o interface{}
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Logger{
-				logger: tt.fields.logger,
-				level:  tt.fields.level,
-			}
-			l.Info(tt.args.o)
-		})
-	}
-}
+// func TestGoLogger_Info(t *testing.T) {
+// 	type fields struct {
+// 		logger *log.Logger
+// 		level  string
+// 	}
+// 	type args struct {
+// 		v interface{}
+// 	}
+// 	tests := []struct {
+// 		name   string
+// 		fields fields
+// 		args   args
+// 	}{
+// 		// TODO: Add test cases.
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			l := &GoLogger{
+// 				logger: tt.fields.logger,
+// 				level:  tt.fields.level,
+// 			}
+// 			l.Info(tt.args.v)
+// 		})
+// 	}
+// }
 
-func TestLogger_Warning(t *testing.T) {
-	type fields struct {
-		logger *log.Logger
-		level  string
-	}
-	type args struct {
-		o interface{}
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Logger{
-				logger: tt.fields.logger,
-				level:  tt.fields.level,
-			}
-			l.Warning(tt.args.o)
-		})
-	}
-}
+// func TestGoLogger_Warning(t *testing.T) {
+// 	type fields struct {
+// 		logger *log.Logger
+// 		level  string
+// 	}
+// 	type args struct {
+// 		v interface{}
+// 	}
+// 	tests := []struct {
+// 		name   string
+// 		fields fields
+// 		args   args
+// 	}{
+// 		// TODO: Add test cases.
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			l := &GoLogger{
+// 				logger: tt.fields.logger,
+// 				level:  tt.fields.level,
+// 			}
+// 			l.Warning(tt.args.v)
+// 		})
+// 	}
+// }
 
-func TestLogger_Error(t *testing.T) {
-	type fields struct {
-		logger *log.Logger
-		level  string
-	}
-	type args struct {
-		o interface{}
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Logger{
-				logger: tt.fields.logger,
-				level:  tt.fields.level,
-			}
-			l.Error(tt.args.o)
-		})
-	}
-}
+// func TestGoLogger_Error(t *testing.T) {
+// 	type fields struct {
+// 		logger *log.Logger
+// 		level  string
+// 	}
+// 	type args struct {
+// 		v interface{}
+// 	}
+// 	tests := []struct {
+// 		name   string
+// 		fields fields
+// 		args   args
+// 	}{
+// 		// TODO: Add test cases.
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			l := &GoLogger{
+// 				logger: tt.fields.logger,
+// 				level:  tt.fields.level,
+// 			}
+// 			l.Error(tt.args.v)
+// 		})
+// 	}
+// }
 
-func TestLogger_Critical(t *testing.T) {
-	type fields struct {
-		logger *log.Logger
-		level  string
-	}
-	type args struct {
-		o interface{}
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Logger{
-				logger: tt.fields.logger,
-				level:  tt.fields.level,
-			}
-			l.Critical(tt.args.o)
-		})
-	}
-}
+// func TestGoLogger_Critical(t *testing.T) {
+// 	type fields struct {
+// 		logger *log.Logger
+// 		level  string
+// 	}
+// 	type args struct {
+// 		v interface{}
+// 	}
+// 	tests := []struct {
+// 		name   string
+// 		fields fields
+// 		args   args
+// 	}{
+// 		// TODO: Add test cases.
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			l := &GoLogger{
+// 				logger: tt.fields.logger,
+// 				level:  tt.fields.level,
+// 			}
+// 			l.Critical(tt.args.v)
+// 		})
+// 	}
+// }
 
-func TestCreateLogger(t *testing.T) {
-	type args struct {
-		f     *os.File
-		level string
-	}
-	tests := []struct {
-		name string
-		args args
-		want *Logger
-	}{
-
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := CreateLogger(tt.args.f, tt.args.level); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("CreateLogger() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
