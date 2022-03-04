@@ -1,6 +1,7 @@
 package go_logger
 
 import (
+	"errors"
 	"io"
 	"log"
 	"os"
@@ -15,6 +16,9 @@ const (
 	LevelCritical
 )
 
+// 5 kinds of log message levels for different usage.
+// if the message level lower than the logger level,
+// the logger will not log the message.
 type Logger interface {
 	Debug(v interface{})
 	Info(v interface{})
@@ -24,8 +28,8 @@ type Logger interface {
 }
 
 type GoLogger struct {
-	logger *log.Logger
-	level  string
+	Logger   *log.Logger
+	LevelInt int
 }
 
 func convertLevelToInt(s string) int {
@@ -36,62 +40,66 @@ func convertLevelToInt(s string) int {
 		"error":    3,
 		"critical": 4,
 	}
-	levelInt := levelMap[s]
-	return levelInt
+	// if log level string wrong
+	if levelInt, ok := levelMap[s]; !ok {
+		return -1
+	} else {
+		return levelInt
+	}
 }
 
-
 func (l *GoLogger) Debug(v interface{}) {
-	levelInt := convertLevelToInt(l.level)
-	if levelInt <= LevelDebug {
-		l.logger.Println("[DEBUG] ", v)
+	if l.LevelInt <= LevelDebug {
+		l.Logger.Println("[DEBUG] ", v)
 	}
 }
 
 func (l *GoLogger) Info(v interface{}) {
-	levelInt := convertLevelToInt(l.level)
-	if levelInt <= LevelInfo {
-		l.logger.Println("[INFO] ", v)
+	if l.LevelInt <= LevelInfo {
+		l.Logger.Println("[INFO] ", v)
 	}
 }
 
 func (l *GoLogger) Warning(v interface{}) {
-	levelInt := convertLevelToInt(l.level)
-	if levelInt <= LevelWarning {
-		l.logger.Println("[WARNING] ", v)
+	if l.LevelInt <= LevelWarning {
+		l.Logger.Println("[WARNING] ", v)
 	}
 }
 
 func (l *GoLogger) Error(v interface{}) {
-	levelInt := convertLevelToInt(l.level)
-	if levelInt <= LevelError {
-		l.logger.Println("[ERROR] ", v)
+	if l.LevelInt <= LevelError {
+		l.Logger.Println("[ERROR] ", v)
 	}
 }
 
 func (l *GoLogger) Critical(v interface{}) {
-	levelInt := convertLevelToInt(l.level)
-	if levelInt <= LevelCritical {
-		l.logger.Println("[CRITICAL] ", v)
+	if l.LevelInt <= LevelCritical {
+		l.Logger.Println("[CRITICAL] ", v)
 	}
 }
 
 var (
 	newLogger *GoLogger
-	once sync.Once
+	once      sync.Once
 )
 
-func CreateLogger(f *os.File, level string) *GoLogger {
+func CreateLogger(f *os.File, level string) (*GoLogger, error) {
+	// sync.Once to implement the singleton pattern.
 	once.Do(
 		func() {
 			writers := []io.Writer{f, os.Stdout}
 			logger := log.New(io.MultiWriter(writers...), "", log.Ldate|log.Ltime)
+			levelInt := convertLevelToInt(level)
 			newLogger = &GoLogger{
-				logger: logger,
-				level:  level,
+				Logger:   logger,
+				LevelInt: levelInt,
 			}
 		},
 	)
+	// wrong log level string
+	if newLogger.LevelInt == -1 {
+		return &GoLogger{}, errors.New("invalid log level string")
+	}
 
-	return newLogger
+	return newLogger, nil
 }

@@ -160,4 +160,3 @@ func Test_convertLevelToInt(t *testing.T) {
 // 		})
 // 	}
 // }
-
